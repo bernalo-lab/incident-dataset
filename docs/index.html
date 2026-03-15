@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Open Production Incident Dataset</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="hero">
+    <div class="container">
+      <p class="eyebrow">ExplainError Calibration Project</p>
+      <h1>Open Production Incident Dataset</h1>
+      <p class="hero-text">
+        A curated dataset of redacted real-world production failures used to study
+        incident patterns, improve triage, and calibrate structured incident classification systems.
+      </p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="https://github.com/bernalo-lab/incident-dataset" target="_blank" rel="noopener noreferrer">View GitHub Repo</a>
+        <a class="btn btn-secondary" href="https://incident-dataset.onrender.com/submit" target="_blank" rel="noopener noreferrer">Submit Incident</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="section">
+      <div class="container">
+        <h2>Why this exists</h2>
+        <p>
+          Modern systems generate large volumes of noisy and ambiguous errors.
+          During incidents, engineers often have to decide quickly whether they are
+          dealing with a dependency failure, timeout cascade, configuration issue,
+          authentication problem, or something more subtle.
+        </p>
+        <p>
+          This dataset captures redacted real-world examples so engineers and tools
+          can better recognise failure patterns and make faster, more structured triage decisions.
+        </p>
+      </div>
+    </section>
+
+    <section class="section alt">
+      <div class="container">
+        <h2>Core categories</h2>
+        <div class="card-grid">
+          <div class="card"><h3>API Failures</h3><p>Upstream 503s, malformed responses, gateway errors.</p></div>
+          <div class="card"><h3>Database Errors</h3><p>Connection pool exhaustion, lock contention, query timeouts.</p></div>
+          <div class="card"><h3>Payment Errors</h3><p>Retry storms, duplicate authorisation attempts, gateway instability.</p></div>
+          <div class="card"><h3>Timeout Patterns</h3><p>Lambda timeouts, queue backlogs, slow downstream dependencies.</p></div>
+          <div class="card"><h3>Authentication Errors</h3><p>Expired tokens, failed refresh flows, 401 spikes.</p></div>
+          <div class="card"><h3>Dependency Failures</h3><p>DNS issues, unavailable upstream services, network resolution failures.</p></div>
+          <div class="card"><h3>Configuration Errors</h3><p>Bad endpoints, missing environment variables, secrets drift.</p></div>
+          <div class="card"><h3>Cascading Failures</h3><p>One slowdown triggers retries, queues, timeouts, and wider degradation.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container narrow">
+        <h2>Contribution principles</h2>
+        <ul class="clean-list">
+          <li>All examples must be fully redacted.</li>
+          <li>No company names, internal URLs, IDs, emails, or secrets.</li>
+          <li>Examples should be realistic, useful, and structured.</li>
+          <li>Misleading or ambiguous production errors are especially valuable.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section alt">
+      <div class="container narrow">
+        <h2>Example record shape</h2>
+<pre class="code-block"><code>{
+  "id": "API-503-001",
+  "category": "api-failures",
+  "environment": "production",
+  "service": "&lt;checkout-service&gt;",
+  "error_message": "HTTP 503 Service Unavailable returned by upstream dependency",
+  "log_excerpt": "POST /payments/authorize -&gt; 503 returned from &lt;payment-gateway&gt;",
+  "observed_symptoms": [
+    "checkout requests failing",
+    "retry attempts increasing rapidly"
+  ],
+  "expected_classification": "dependency/unavailable",
+  "expected_severity": "high",
+  "triage_notes": "Upstream payment gateway returned repeated 503 responses.",
+  "confidence_hints": [
+    "503 HTTP status code",
+    "external service call"
+  ],
+  "action_signal": "retry_or_failover"
+}</code></pre>
+      </div>
+    </section>
+
+    <section class="section cta-section">
+      <div class="container narrow">
+        <h2>Help grow the dataset</h2>
+        <p>
+          Have you seen a misleading or memorable production error during incident triage?
+          Submit a redacted example and help build a useful open reliability engineering resource.
+        </p>
+        <a class="btn btn-primary" href="https://incident-dataset.onrender.com/submit" target="_blank" rel="noopener noreferrer">Submit a Redacted Incident</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <p>Open Production Incident Dataset</p>
+      <p>Used to support ExplainError calibration and structured incident research.</p>
+    </div>
+  </footer>
+</body>
+</html>

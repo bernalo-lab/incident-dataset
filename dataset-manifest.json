@@ -1,0 +1,18 @@
+{
+  "dataset_name": "ExplainError Calibration Dataset",
+  "version": "0.1",
+  "total_examples": 10,
+  "categories": [
+    "api-failures",
+    "database-errors",
+    "payment-errors",
+    "timeout-patterns",
+    "authentication-errors",
+    "dependency-failure",
+    "configuration-errors",
+    "cascading-failures",
+    "retry-amplification",
+    "partial-failures"
+  ],
+  "purpose": "Calibration of structured incident classification and confidence scoring."
+}

@@ -1,0 +1,28 @@
+{
+  "id": "EXAMPLE-ID",
+
+  "category": "api-failures",
+
+  "environment": "production",
+
+  "error_message": "short description of the error",
+
+  "log_excerpt": "sanitised log excerpt",
+
+  "observed_symptoms": [
+    "symptom 1",
+    "symptom 2"
+  ],
+
+  "expected_classification": "dependency/unavailable",
+
+  "expected_severity": "medium",
+
+  "triage_notes": "brief explanation of what the issue actually was",
+
+  "confidence_hints": [
+    "signal used during triage"
+  ],
+
+  "action_signal": "retry_or_failover"
+}

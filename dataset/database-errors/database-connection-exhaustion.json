@@ -1,0 +1,30 @@
+{
+  "id": "DB-CONN-001",
+  "category": "database-errors",
+  "environment": "production",
+  "service": "<policy-service>",
+
+  "error_message": "Database connection pool exhausted",
+
+  "log_excerpt": "Timeout acquiring connection from pool after 30000ms",
+
+  "observed_symptoms": [
+    "API response times increasing",
+    "database connection pool reaching maximum capacity",
+    "requests waiting for available connections"
+  ],
+
+  "expected_classification": "resource/exhaustion",
+
+  "expected_severity": "high",
+
+  "triage_notes": "Application threads were unable to obtain database connections due to connection pool saturation.",
+
+  "confidence_hints": [
+    "connection pool exhaustion",
+    "timeout acquiring connection",
+    "database dependency"
+  ],
+
+  "action_signal": "scale_or_restart_dependency"
+}

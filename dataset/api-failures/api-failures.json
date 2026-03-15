@@ -1,0 +1,20 @@
+{
+  "id": "API-503-001",
+  "category": "api-failures",
+  "environment": "production",
+  "error_message": "503 Service Unavailable returned by upstream payments API",
+  "log_excerpt": "HTTP 503 received from <payment-gateway> during POST /authorize",
+  "observed_symptoms": [
+    "checkout failures",
+    "retry storms"
+  ],
+  "expected_classification": "dependency/unavailable",
+  "expected_severity": "high",
+  "triage_notes": "External dependency returned 503 errors. Application itself healthy.",
+  "confidence_hints": [
+    "503 status code",
+    "external gateway",
+    "retry attempts present"
+  ],
+  "action_signal": "retry_or_failover"
+}
