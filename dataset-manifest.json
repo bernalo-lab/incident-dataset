@@ -1,7 +1,7 @@
 {
   "dataset_name": "ExplainError Calibration Dataset",
-  "version": "0.1",
-  "total_examples": 10,
+  "version": "0.2",
+  "total_examples": 35,
   "categories": [
     "api-failures",
     "database-errors",
@@ -12,7 +12,13 @@
     "configuration-errors",
     "cascading-failures",
     "retry-amplification",
-    "partial-failures"
+    "partial-failures",
+    "insurance-workflow-failures",
+    "enterprise-dependency-errors",
+    "queue-backlogs",
+    "latency-spikes",
+    "security-signature-errors"
   ],
-  "purpose": "Calibration of structured incident classification and confidence scoring."
+  "purpose": "Calibration of structured incident classification, operational judgement, and confidence scoring.",
+  "contribution_policy": "Community submissions allowed. Errors must be anonymised."
 }
