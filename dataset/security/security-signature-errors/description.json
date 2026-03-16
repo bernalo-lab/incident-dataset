@@ -1,0 +1,24 @@
+{
+  "category": "security-signature-errors",
+  "domain": "security",
+  "description": "Security-related incidents involving message integrity validation failures, timestamp skew, or authentication signature mismatches.",
+  "incident_patterns": [
+    "signature-validation-failure",
+    "timestamp-skew",
+    "payload-integrity-error",
+    "authentication-token-mismatch"
+  ],
+  "common_signals": [
+    "signature mismatch",
+    "clock skew detected",
+    "invalid authentication signature",
+    "request timestamp outside allowed window"
+  ],
+  "example_systems": [
+    "API gateway authentication",
+    "broker integrations",
+    "secure partner APIs",
+    "OAuth and SSO providers"
+  ],
+  "purpose": "Teach ExplainError to distinguish security integrity failures from general integration errors."
+}

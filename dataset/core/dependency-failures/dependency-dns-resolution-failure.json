@@ -1,0 +1,30 @@
+{
+  "id": "DEP-DNS-001",
+  "category": "dependency-failures",
+  "environment": "production",
+  "service": "<policy-renewal-service>",
+
+  "error_message": "System.Net.Http.HttpRequestException: Name or service not known",
+
+  "log_excerpt": "HttpRequestException while calling https://<upstream-service>/renew-policy : DNS resolution failed",
+
+  "observed_symptoms": [
+    "policy renewal API returning HTTP 500",
+    "outbound calls to upstream dependency failing",
+    "DNS lookup failures in application logs"
+  ],
+
+  "expected_classification": "dependency/dns-failure",
+
+  "expected_severity": "high",
+
+  "triage_notes": "Application unable to resolve hostname of upstream dependency due to DNS resolution failure within the runtime environment.",
+
+  "confidence_hints": [
+    "dns resolution error",
+    "http request exception",
+    "external service dependency"
+  ],
+
+  "action_signal": "investigate_network_or_dns"
+}

@@ -1,0 +1,27 @@
+{
+  "category": "queue-backlogs",
+  "domain": "operations",
+  "description": "Operational incidents where asynchronous processing queues accumulate messages beyond acceptable thresholds.",
+  "incident_patterns": [
+    "dead-letter-queue-overflow",
+    "processing-backlog",
+    "message-retry-loop",
+    "queue-saturation",
+    "consumer-throughput-degradation"
+  ],
+  "common_signals": [
+    "pending message spike",
+    "dead letter queue growth",
+    "message retry accumulation",
+    "oldest message exceeding SLA",
+    "consumer lag increasing"
+  ],
+  "example_systems": [
+    "Kafka",
+    "AWS SQS",
+    "RabbitMQ",
+    "workflow orchestration queues",
+    "event processing pipelines"
+  ],
+  "purpose": "Calibrate ExplainError to recognise operational backlog conditions and distinguish them from direct service failures."
+}

@@ -1,0 +1,27 @@
+{
+  "category": "insurance-workflow-failures",
+  "domain": "insurance",
+  "description": "Failures occurring within multi-step insurance workflows such as underwriting, claims handling, policy servicing, billing and document generation.",
+  "incident_patterns": [
+    "workflow-stalled",
+    "missing-dependent-field",
+    "workflow-dead-letter-queue",
+    "batch-processing-failure",
+    "document-generation-error"
+  ],
+  "common_signals": [
+    "workflow halted",
+    "missing service field",
+    "dead letter queue overflow",
+    "batch aborted",
+    "document rendering failure"
+  ],
+  "example_systems": [
+    "claims processing",
+    "underwriting rule engines",
+    "policy administration systems",
+    "billing services",
+    "document generation engines"
+  ],
+  "purpose": "Calibrate ExplainError to recognise workflow orchestration failures in enterprise insurance systems."
+}

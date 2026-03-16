@@ -1,0 +1,27 @@
+{
+  "category": "enterprise-dependency-errors",
+  "domain": "enterprise-systems",
+  "description": "Failures caused by dependent services, third-party integrations, or external APIs returning unavailable, malformed, or inconclusive responses.",
+  "incident_patterns": [
+    "dependency-unavailable",
+    "dependency-timeout",
+    "malformed-response",
+    "inconclusive-external-verification",
+    "third-party-service-failure"
+  ],
+  "common_signals": [
+    "HTTP 503",
+    "timeout exceeded",
+    "invalid XML or JSON",
+    "external verification inconclusive",
+    "service unavailable"
+  ],
+  "example_systems": [
+    "fraud scoring services",
+    "KYC verification providers",
+    "bank APIs",
+    "partner integrations",
+    "external underwriting data providers"
+  ],
+  "purpose": "Train ExplainError to correctly classify incidents originating from external service dependencies rather than internal system failures."
+}

@@ -1,0 +1,30 @@
+{
+  "id": "AUTH-TOKEN-001",
+  "category": "authentication-errors",
+  "environment": "production",
+  "service": "<identity-service>",
+
+  "error_message": "Authentication token expired",
+
+  "log_excerpt": "JWT validation failed: token expired at <timestamp>",
+
+  "observed_symptoms": [
+    "users suddenly logged out",
+    "authentication failures increasing",
+    "API requests returning HTTP 401"
+  ],
+
+  "expected_classification": "authentication/token-expired",
+
+  "expected_severity": "low",
+
+  "triage_notes": "Authentication tokens expired as expected but were not refreshed correctly by the client application.",
+
+  "confidence_hints": [
+    "jwt expired message",
+    "401 unauthorized responses",
+    "authentication failure pattern"
+  ],
+
+  "action_signal": "refresh_or_reauthenticate"
+}

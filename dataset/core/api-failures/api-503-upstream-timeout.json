@@ -1,0 +1,30 @@
+{
+  "id": "API-503-001",
+  "category": "api-failures",
+  "environment": "production",
+  "service": "<checkout-service>",
+
+  "error_message": "HTTP 503 Service Unavailable returned by upstream dependency",
+
+  "log_excerpt": "POST /payments/authorize -> 503 returned from <payment-gateway> after 5s",
+
+  "observed_symptoms": [
+    "checkout requests failing",
+    "retry attempts increasing rapidly",
+    "latency spike in upstream dependency"
+  ],
+
+  "expected_classification": "dependency/unavailable",
+
+  "expected_severity": "high",
+
+  "triage_notes": "Upstream payment gateway returned repeated 503 responses. Application service itself remained healthy but propagated failures.",
+
+  "confidence_hints": [
+    "503 HTTP status code",
+    "external service call",
+    "retry attempts present"
+  ],
+
+  "action_signal": "retry_or_failover"
+}

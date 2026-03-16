@@ -1,0 +1,30 @@
+{
+  "id": "CASCADE-QUEUE-001",
+  "category": "cascading-failures",
+  "environment": "production",
+  "service": "<document-processing-service>",
+
+  "error_message": "Processing latency exceeded threshold",
+
+  "log_excerpt": "Queue backlog increased to 15,000 pending messages",
+
+  "observed_symptoms": [
+    "message processing latency increasing",
+    "queue backlog growing rapidly",
+    "downstream services timing out"
+  ],
+
+  "expected_classification": "cascade/queue-backlog",
+
+  "expected_severity": "high",
+
+  "triage_notes": "Upstream service slowdown caused message queue backlog which propagated latency across dependent services.",
+
+  "confidence_hints": [
+    "queue depth increase",
+    "latency spike",
+    "dependent service timeouts"
+  ],
+
+  "action_signal": "investigate_upstream_dependency"
+}

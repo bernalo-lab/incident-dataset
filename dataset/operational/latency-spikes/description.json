@@ -1,0 +1,25 @@
+{
+  "category": "latency-spikes",
+  "domain": "performance",
+  "description": "Incidents where service latency increases significantly beyond baseline or defined performance thresholds.",
+  "incident_patterns": [
+    "p95-latency-spike",
+    "timeout-threshold-exceeded",
+    "response-time-degradation",
+    "performance-saturation"
+  ],
+  "common_signals": [
+    "P95 latency increase",
+    "request timeout exceeded",
+    "average response time spike",
+    "performance degradation alerts"
+  ],
+  "example_systems": [
+    "rating engines",
+    "policy calculation services",
+    "search services",
+    "API gateways",
+    "microservice dependencies"
+  ],
+  "purpose": "Enable ExplainError to classify degraded system performance separately from complete service outages."
+}
