@@ -146,6 +146,11 @@ app.get("/submit", (req, res) => {
             <option value="cascading-failures">Cascading Failures</option>
             <option value="retry-amplification">Retry Amplification</option>
             <option value="partial-failures">Partial Failures</option>
+            <option value="insurance-workflow-failures">Insurance Workflow Failures</option>
+            <option value="enterprise-dependency-errors">Enterprise Dependency Errors</option>
+            <option value="queue-backlogs">Queue Backlogs</option>
+            <option value="latency-spikes">Latency Spikes</option>
+            <option value="security-signature-errors">Security Signature Errors</option>
           </select>
 
           <label for="environment">Environment</label>
@@ -305,38 +310,38 @@ app.get("/admin/incidents", requireBasicAuth, async (req, res) => {
   try {
     const incidents = await IncidentSubmission.find().sort({ createdAt: -1 }).lean();
 
-const rows = incidents.map((incident) => {
-  return `
-    <tr>
-      <td>${incident.id}</td>
-      <td>${incident.category || ""}</td>
-      <td>${incident.environment || ""}</td>
-      <td>${incident.status || ""}</td>
-      <td>${incident.expected_severity || ""}</td>
-      <td>${incident.createdAt ? new Date(incident.createdAt).toLocaleString() : ""}</td>
-      <td>
-        ${
-          incident.status === "pending"
-            ? `
-              <form method="POST" action="/admin/approve/${incident.id}" style="display:inline-block; margin-right:8px;">
-                <button type="submit" style="background:#1f9d55;color:#fff;border:0;border-radius:8px;padding:8px 12px;cursor:pointer;">
-                  Approve
-                </button>
-              </form>
-              <form method="POST" action="/admin/reject/${incident.id}" style="display:inline-block;">
-                <button type="submit" style="background:#c53030;color:#fff;border:0;border-radius:8px;padding:8px 12px;cursor:pointer;">
-                  Reject
-                </button>
-              </form>
-            `
-            : incident.status === "approved"
-              ? `<span style="color:#68d391;font-weight:bold;">Approved</span>`
-              : `<span style="color:#fc8181;font-weight:bold;">Rejected</span>`
-        }
-      </td>
-    </tr>
-  `;
-}).join("");
+    const rows = incidents.map((incident) => {
+      return `
+        <tr>
+          <td>${incident.id}</td>
+          <td>${incident.category || ""}</td>
+          <td>${incident.environment || ""}</td>
+          <td>${incident.status || ""}</td>
+          <td>${incident.expected_severity || ""}</td>
+          <td>${incident.createdAt ? new Date(incident.createdAt).toLocaleString() : ""}</td>
+          <td>
+            ${
+              incident.status === "pending"
+                ? `
+                  <form method="POST" action="/admin/approve/${incident.id}" style="display:inline-block; margin-right:8px;">
+                    <button type="submit" style="background:#1f9d55;color:#fff;border:0;border-radius:8px;padding:8px 12px;cursor:pointer;">
+                      Approve
+                    </button>
+                  </form>
+                  <form method="POST" action="/admin/reject/${incident.id}" style="display:inline-block;">
+                    <button type="submit" style="background:#c53030;color:#fff;border:0;border-radius:8px;padding:8px 12px;cursor:pointer;">
+                      Reject
+                    </button>
+                  </form>
+                `
+                : incident.status === "approved"
+                  ? `<span style="color:#68d391;font-weight:bold;">Approved</span>`
+                  : `<span style="color:#fc8181;font-weight:bold;">Rejected</span>`
+            }
+          </td>
+        </tr>
+      `;
+    }).join("");
 
     res.send(`
       <!DOCTYPE html>
@@ -421,7 +426,6 @@ app.post("/admin/approve/:id", requireBasicAuth, async (req, res) => {
     res.status(500).send("Internal server error.");
   }
 });
-
 
 app.post("/admin/reject/:id", requireBasicAuth, async (req, res) => {
   try {
@@ -522,34 +526,112 @@ app.get("/dataset", async (req, res) => {
     `).join("");
 
     res.send(`
-      <html>
+      <!DOCTYPE html>
+      <html lang="en">
       <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>ExplainError Incident Dataset</title>
         <style>
           body {
-            font-family: system-ui;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
             background: #020617;
             color: white;
-            padding: 40px;
+            margin: 0;
+            padding: 40px 24px;
+          }
+          .page {
+            max-width: 1240px;
+            margin: 0 auto;
+          }
+          h1 {
+            font-size: 3rem;
+            margin: 0 0 14px;
+            line-height: 1.05;
+          }
+          h2 {
+            margin: 0 0 18px;
+            font-size: 1.7rem;
+          }
+          p {
+            color: #cbd5e1;
+            line-height: 1.6;
+          }
+          a {
+            color: #60a5fa;
           }
           a.button {
             display: inline-block;
             margin-top: 10px;
-            padding: 10px 16px;
+            padding: 12px 18px;
             background: #2563eb;
             color: white;
-            border-radius: 6px;
+            border-radius: 8px;
             text-decoration: none;
             font-weight: 600;
           }
-          .metrics {
-            margin: 30px 0;
+          .hero {
+            margin-bottom: 36px;
+          }
+          .intro-copy {
+            max-width: 760px;
+          }
+          .flow-section {
+            margin: 40px 0;
+            padding: 24px;
+            background: #071127;
+            border: 1px solid #1e293b;
+            border-radius: 16px;
+          }
+          .flow-section p.section-note {
+            margin-top: 0;
+            margin-bottom: 20px;
+          }
+          .flow-container {
             display: flex;
-            gap: 40px;
+            align-items: stretch;
+            flex-wrap: wrap;
+            gap: 16px;
+          }
+          .flow-box {
+            background: #0f172a;
+            border: 1px solid #1e293b;
+            padding: 18px;
+            border-radius: 12px;
+            width: 200px;
+            box-sizing: border-box;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.18);
+          }
+          .flow-box h3 {
+            margin: 0 0 8px;
+            font-size: 16px;
+          }
+          .flow-box p {
+            margin: 0;
+            font-size: 13px;
+            color: #cbd5f5;
+          }
+          .flow-arrow {
+            font-size: 24px;
+            color: #60a5fa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 20px;
+          }
+          .metrics {
+            margin: 30px 0 40px;
+            display: flex;
+            gap: 24px;
             flex-wrap: wrap;
           }
           .metric-card {
-            min-width: 180px;
+            min-width: 220px;
+            background: #071127;
+            border: 1px solid #1e293b;
+            border-radius: 14px;
+            padding: 18px;
+            box-sizing: border-box;
           }
           .metric-card h3 {
             margin-bottom: 10px;
@@ -557,72 +639,144 @@ app.get("/dataset", async (req, res) => {
           .metric-card p {
             font-size: 28px;
             margin: 0;
+            color: white;
           }
           .metric-card ul {
             margin: 0;
             padding-left: 18px;
+            color: #cbd5e1;
+          }
+          .table-wrap {
+            overflow-x: auto;
           }
           table {
             width: 100%;
             border-collapse: collapse;
+            min-width: 860px;
           }
           th, td {
             border: 1px solid #1e293b;
-            padding: 10px;
+            padding: 12px;
+            text-align: left;
+            vertical-align: top;
           }
           th {
             background: #0f172a;
           }
+          td {
+            background: #020617;
+          }
+          @media (max-width: 900px) {
+            h1 {
+              font-size: 2.2rem;
+            }
+            .flow-arrow {
+              transform: rotate(90deg);
+              width: 100%;
+              min-width: 100%;
+              min-height: 20px;
+            }
+            .flow-box {
+              width: 100%;
+            }
+          }
         </style>
       </head>
       <body>
-        <h1>ExplainError Calibration Dataset</h1>
-        <p>Approved community incidents used to calibrate ExplainError classification.</p>
-        <p>
-          API access:
-          <a href="/dataset/public" style="color:#60a5fa;">/dataset/public</a>
-        </p>
+        <div class="page">
+          <div class="hero">
+            <h1>ExplainError Calibration Dataset</h1>
+            <p style="color:#9db0d6;">Dataset Version: 0.2</p>
+            <p class="intro-copy">Approved community incidents used to calibrate ExplainError classification, severity judgement, and operational action signals.</p>
+            <p>
+              API access:
+              <a href="/dataset/public">/dataset/public</a>
+            </p>
 
-        <a href="/submit" class="button">Submit a Redacted Incident</a>
-
-        <div class="metrics">
-          <div class="metric-card">
-            <h3>Total Approved Incidents</h3>
-            <p>${totalIncidents}</p>
+            <a href="/submit" class="button">Submit a Redacted Incident</a>
           </div>
 
-          <div class="metric-card">
-            <h3>Categories</h3>
-            <ul>${categoryList}</ul>
+          <div class="flow-section">
+            <h2>How ExplainError Interprets Incidents</h2>
+            <p class="section-note">This dataset is designed to show how messy production signals are transformed into structured judgement that engineers can act on quickly.</p>
+
+            <div class="flow-container">
+              <div class="flow-box">
+                <h3>Raw Incident</h3>
+                <p>Error message, logs, symptoms and triage notes from live production systems.</p>
+              </div>
+
+              <div class="flow-arrow">→</div>
+
+              <div class="flow-box">
+                <h3>Pattern Detection</h3>
+                <p>Signals are matched against known failure shapes such as timeouts, dependency failures, backlog conditions and workflow stalls.</p>
+              </div>
+
+              <div class="flow-arrow">→</div>
+
+              <div class="flow-box">
+                <h3>Classification</h3>
+                <p>A structured incident type is assigned, such as <strong>dependency/unavailable</strong> or <strong>workflow/stalled</strong>.</p>
+              </div>
+
+              <div class="flow-arrow">→</div>
+
+              <div class="flow-box">
+                <h3>Confidence</h3>
+                <p>The judgement is scored according to signal strength, ambiguity and pattern match quality.</p>
+              </div>
+
+              <div class="flow-arrow">→</div>
+
+              <div class="flow-box">
+                <h3>Action Signal</h3>
+                <p>Operational guidance is surfaced, such as <strong>retry_or_failover</strong>, <strong>escalate</strong> or <strong>manual_review</strong>.</p>
+              </div>
+            </div>
           </div>
 
-          <div class="metric-card">
-            <h3>Severity Distribution</h3>
-            <ul>${severityList}</ul>
+          <div class="metrics">
+            <div class="metric-card">
+              <h3>Total Incident Patterns</h3>
+              <p>${totalIncidents}</p>
+            </div>
+
+            <div class="metric-card">
+              <h3>Categories</h3>
+              <ul>${categoryList || "<li>No categories yet.</li>"}</ul>
+            </div>
+
+            <div class="metric-card">
+              <h3>Severity Distribution</h3>
+              <ul>${severityList || "<li>No severities yet.</li>"}</ul>
+            </div>
+
+            <div class="metric-card">
+              <h3>Action Signals</h3>
+              <ul>${actionList || "<li>No action signals yet.</li>"}</ul>
+            </div>
           </div>
 
-          <div class="metric-card">
-            <h3>Action Signals</h3>
-            <ul>${actionList}</ul>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Category</th>
+                  <th>Environment</th>
+                  <th>Classification</th>
+                  <th>Severity</th>
+                  <th>Action Signal</th>
+                  <th>Submitted</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${rows || `<tr><td colspan="7">No approved incidents yet.</td></tr>`}
+              </tbody>
+            </table>
           </div>
         </div>
-
-        <table>
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Category</th>
-              <th>Environment</th>
-              <th>Classification</th>
-              <th>Severity</th>
-              <th>Action Signal</th>
-              <th>Submitted</th>
-            </tr>
-          </thead>
-          <tbody>
-            ${rows || `<tr><td colspan="7">No approved incidents yet.</td></tr>`}
-          </tbody>
-        </table>
       </body>
       </html>
     `);
@@ -645,7 +799,6 @@ async function startServer() {
     app.listen(PORT, () => {
       console.log(`Server running on port ${PORT}`);
     });
-
   } catch (error) {
     console.error("Startup error:", error.message);
     process.exit(1);
